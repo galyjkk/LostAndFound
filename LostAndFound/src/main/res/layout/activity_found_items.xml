@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:id="@+id/title_found"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/title_bg">
+
+        <ImageButton
+            android:id="@+id/image_button_refresh_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_found_items"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="8dip"
+            android:gravity="center_vertical"
+            android:background="@drawable/title_button_refresh"
+            android:onClick="query"/>
+
+        <TextView
+            android:id="@+id/tv_found_items"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/found_items"
+            android:textSize="25sp" />
+
+        <ImageButton
+            android:id="@+id/image_button_post_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/tv_found_items"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="8dip"
+            android:gravity="center_vertical"
+            android:background="@drawable/title_button_post"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_found_items"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"/>
+
+</LinearLayout>

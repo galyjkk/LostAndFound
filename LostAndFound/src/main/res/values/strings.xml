@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LostAndFound</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title">Lost and Found</string>
+    <string name="title_activity_found_items">FoundItemsActivity</string>
+
+    <!-- 底部按钮和各页标题 -->
+    <string name="lost_items">寻物品</string>
+    <string name="found_items">寻失主</string>
+    <string name="my_post">我的发布</string>
+    <string name="my_messages">我的消息</string>
+    <string name="more">更多</string>
+    <string name="post">发布消息</string>
+    <string name="details">详细信息</string>
+
+    <!-- more页面按钮 -->
+    <string name="about">关于</string>
+    <string name="exit">退出</string>
+    <string name="title_activity_my_post">MyPostActivity</string>
+    <string name="title_activity_lost_items">LostItemsActivity</string>
+    <string name="title_activity_my_messages">MyMessagesActivity</string>
+    <string name="title_activity_more">MoreActivity</string>
+    <string name="title_activity_post">PostActivity</string>
+    <string name="title_activity_details">DetailsActivity</string>
+
+</resources>
