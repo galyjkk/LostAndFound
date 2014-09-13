@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorWrapper;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,8 @@ import java.util.Map;
 
 import com.galy.lostandfound.database.DBManager;
 import com.galy.lostandfound.database.information;
+
+import com.joanzapata.android.iconify.*;
 
 
 public class LostItemsActivity extends Activity {

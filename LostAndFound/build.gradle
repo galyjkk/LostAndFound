@@ -33,6 +33,12 @@ android {
     }
 }
 
+List myDependencies = ["com.android.support:appcompat-v7:+",
+        fileTree (dir: 'D://Android//LostAndFound//LostAndFound//libs', includes: ['*.jar'])]
 dependencies {
-	compile 'com.android.support:appcompat-v7:+'
+    compile myDependencies
 }
+
+//dependencies {
+//	compile 'com.android.support:appcompat-v7:+'
+//}
