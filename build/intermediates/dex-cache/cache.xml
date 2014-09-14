@@ -2,16 +2,16 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/build/intermediates/pre-dexed/debug/android-iconify-1.0.6-7b0001872b93a9ca73498bc3c3e08e8cbfec6f49.jar"
-        jar="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/libs/android-iconify-1.0.6.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="f9ee1a18c922b05fa5b48d9ff0a5ca4fccbf5b35"/>
-    <item
-        dex="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/build/intermediates/pre-dexed/debug/support-v4-19.0.1-3f0b67b6d0ab08fd55601cab4dd9180dac22f048.jar"
-        jar="/Users/liuyuchen/Documents/adt-bundle-mac-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-v4/19.0.1/support-v4-19.0.1.jar"
+        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\support-v4-19.0.1-a836e6b82e3d7644e2882754f92712de5e00a336.jar"
+        jar="D:\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.0.1\support-v4-19.0.1.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="587da9a481ffd341d2fa091704489b89845ddacd"/>
+    <item
+        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\android-iconify-1.0.6-efeceab2661bde9c3d7eced8ee2bd7f6c2d91805.jar"
+        jar="D:\Android\LostAndFound\LostAndFound\libs\android-iconify-1.0.6.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f9ee1a18c922b05fa5b48d9ff0a5ca4fccbf5b35"/>
 
 </pre-dex-items>
