@@ -2,8 +2,8 @@
 <pre-dex-items>
 
     <item
-        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\support-v4-19.0.1-a836e6b82e3d7644e2882754f92712de5e00a336.jar"
-        jar="D:\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.0.1\support-v4-19.0.1.jar"
+        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\support-v4-19.0.1-d10fa99bb0f70ffe07d9feaa61d753975592dbc5.jar"
+        jar="D:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.0.1\support-v4-19.0.1.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="587da9a481ffd341d2fa091704489b89845ddacd"/>

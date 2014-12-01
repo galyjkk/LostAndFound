@@ -23,6 +23,8 @@ import android.widget.Toast;
 import android.app.TabActivity;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.joanzapata.android.iconify.Iconify;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +117,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         //tabhost
         mainTab = (RadioGroup)findViewById(R.id.main_tab);
         mainTab.setOnCheckedChangeListener(MainActivity.this);
-
     }
 
     @Override
