@@ -15,6 +15,15 @@
     <string name="more">更多</string>
     <string name="post">发布消息</string>
     <string name="details">详细信息</string>
+    <string name="login">登录</string>
+
+    <!-- 页面字符 -->
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="sign_up">注册</string>
+    <string name="sign_in">登录</string>
+
+    <string name="copyright">LostAndFound, All Rights Reserved</string>
 
     <!-- more页面按钮 -->
     <string name="about">关于</string>
@@ -25,5 +34,6 @@
     <string name="title_activity_more">MoreActivity</string>
     <string name="title_activity_post">PostActivity</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

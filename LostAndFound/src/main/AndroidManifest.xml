@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.galy.lostandfound">
+    package="com.galy.lostandfound" >
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -11,11 +18,11 @@
             android:name="com.galy.lostandfound.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/ActivityTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name="com.galy.lostandfound.FoundItemsActivity"
@@ -45,8 +52,21 @@
             android:name="com.galy.lostandfound.DetailsActivity"
             android:label="@string/title_activity_details" >
         </activity>
-    </application>
+        <activity
+            android:name="com.galy.lostandfound.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.galy.lostandfound.service.MainService"
+            android:exported="false" >
+        </service>
+    </application>
 
 </manifest>
