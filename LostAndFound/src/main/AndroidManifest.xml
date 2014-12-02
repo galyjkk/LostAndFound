@@ -18,11 +18,10 @@
             android:name="com.galy.lostandfound.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/ActivityTheme" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.galy.lostandfound.FoundItemsActivity"
@@ -56,17 +55,15 @@
             android:name="com.galy.lostandfound.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
         <service
             android:name="com.galy.lostandfound.service.MainService"
             android:exported="false" >
         </service>
+        <activity
+            android:name="com.galy.lostandfound.SignupActivity"
+            android:label="@string/title_activity_signup" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,60 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/title_login"
+        android:id="@+id/title_signup"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:layout_marginBottom="10dp"
         android:background="@drawable/title_bg">
 
         <ImageButton
-            android:id="@+id/cancel_login"
+            android:id="@+id/cancel_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_login"
+            android:layout_alignLeft="@+id/tv_signup"
             android:layout_marginLeft="20dip"
             android:layout_marginTop="8dip"
             android:gravity="center_vertical"
             android:background="@drawable/title_button_back"/>
 
         <TextView
-            android:id="@+id/tv_login"
+            android:id="@+id/tv_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="@string/sign_in"
+            android:text="@string/sign_up"
             android:textColor="#FFFFFF"
             android:textSize="25sp" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/content_login"
+        android:id="@+id/content_signup"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
-            android:id="@+id/username_login"
+            android:id="@+id/username_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:textSize="@dimen/font_normal"
-            android:hint="@string/username"
+            android:hint="@string/username_signup"
             android:lines="1"
             bootstrapbutton:be_roundedCorners="true"/>
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
-            android:id="@+id/password_login"
+            android:id="@+id/password_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/font_normal"
+            android:hint="@string/password_signup"
+            android:lines="1"
+            android:password="true"
+            android:layout_below="@+id/username_signup"
+            bootstrapbutton:be_roundedCorners="true"/>
+
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@+id/password_confirm"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -63,43 +77,23 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:textSize="@dimen/font_normal"
-            android:hint="@string/password"
+            android:hint="@string/password_confirm"
             android:lines="1"
             android:password="true"
-            android:layout_below="@+id/username_login"
+            android:layout_below="@+id/password_signup"
             bootstrapbutton:be_roundedCorners="true"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_below="@+id/password_login">
 
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:id="@+id/sign_up_login"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/sign_up"
-                android:layout_weight="1"
-                bootstrapbutton:bb_icon_left="fa-edit"
-                bootstrapbutton:bb_roundedCorners="true"
-                bootstrapbutton:bb_size="default"
-                bootstrapbutton:bb_type="info" />
-
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:id="@+id/sign_in_login"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/sign_in"
-                android:layout_weight="1"
-                bootstrapbutton:bb_icon_left="fa-sign-in"
-                bootstrapbutton:bb_roundedCorners="true"
-                bootstrapbutton:bb_size="default"
-                bootstrapbutton:bb_type="primary" />
-
-        </LinearLayout>
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/sign_up_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/sign_up"
+            android:layout_below="@+id/password_confirm"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary" />
 
         <TextView
             android:layout_width="fill_parent"

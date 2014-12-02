@@ -50,14 +50,15 @@
                 android:layout_below="@+id/ItemText"
                 android:layout_alignLeft="@+id/ItemText" />
 
-            <ImageView
+            <IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/icon_picture"
+                android:text="{fa-image}"
+                android:textColor="#777777"
                 android:layout_alignTop="@+id/PubDate"
                 android:layout_toRightOf="@+id/PubDate"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="2dp" />
+                android:layout_marginTop="3dp"/>
 
         </RelativeLayout>
 
