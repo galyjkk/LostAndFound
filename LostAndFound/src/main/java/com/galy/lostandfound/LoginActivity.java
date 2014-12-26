@@ -72,7 +72,7 @@ public class LoginActivity extends Activity implements AsynchronousHttpClient.IL
     }
 
     public void signIn(HashMap signInInfo) {
-        new AsynchronousHttpClient(BASE_URL, this).post(signInInfo);
+//        new AsynchronousHttpClient(BASE_URL, this, this).post(signInInfo);
         Toast.makeText(LoginActivity.this, "send", Toast.LENGTH_SHORT).show();
     }
 

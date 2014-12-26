@@ -1,10 +1,17 @@
 package com.galy.lostandfound.service;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.loopj.android.http.*;
 import org.apache.http.Header;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 public class AsynchronousHttpClient {
@@ -12,11 +19,13 @@ public class AsynchronousHttpClient {
     private String mUrl;
     private ILoadListener mListener;
     private AsyncHttpClient mClient;
+    private Context mContext;
 
-    public AsynchronousHttpClient(String url, ILoadListener listener){
+    public AsynchronousHttpClient(String url, ILoadListener listener, Context context){
         this.mClient = new AsyncHttpClient();
         this.mUrl = url;
         this.mListener = listener;
+        this.mContext = context;
     }
 
     // Http get
@@ -41,10 +50,16 @@ public class AsynchronousHttpClient {
     }
 
     // Http post
-    public void post(HashMap p){
-        RequestParams params = new RequestParams(p);
-
-        mClient.post(mUrl, params, new JsonHttpResponseHandler(){
+    public void post(JSONObject params){
+//        RequestParams params = new RequestParams(p);
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(params.toString());
+            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mClient.post(mContext ,mUrl, entity, "application/json", new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 mListener.complete(response);
