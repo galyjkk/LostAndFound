@@ -32,11 +32,11 @@
         revision="20.0.0"
         sha1="a845a88238be0b5be9d238652c1bc0605ef91f52"/>
     <item
-        dex="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-3a90bb30981440eb4e309977c25b11eaf7ce8314.jar"
-        jar="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
+        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\classes-3a437d90e3b1ec4d5b451273425c6d7c216b2dfa.jar"
+        jar="D:\Android\LostAndFound\LostAndFound\build\intermediates\exploded-aar\com.beardedhen\androidbootstrap\1.0.4\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+        sha1="7bd12a5255f797d0dbb96806d9a6d0e95d498025"/>
     <item
         dex="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/build/intermediates/pre-dexed/debug/classes-8fcd0a019bcbceb1f51d5e7ccea7a734d13f3f6c.jar"
         jar="/Users/liuyuchen/Documents/workspace/LostAndFound/LostAndFound/LostAndFound/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
