@@ -32,11 +32,11 @@
         revision="20.0.0"
         sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
     <item
-        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\classes-d19fa42215442bb0e167a10c3aa8bb9b652c30c3.jar"
-        jar="D:\Android\LostAndFound\LostAndFound\build\intermediates\exploded-aar\com.beardedhen\androidbootstrap\1.0.3\classes.jar"
+        dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\classes-3a437d90e3b1ec4d5b451273425c6d7c216b2dfa.jar"
+        jar="D:\Android\LostAndFound\LostAndFound\build\intermediates\exploded-aar\com.beardedhen\androidbootstrap\1.0.4\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="0b3fa9ca38767eedd3907f6e45fe877e16760e5a"/>
+        sha1="7bd12a5255f797d0dbb96806d9a6d0e95d498025"/>
     <item
         dex="D:\Android\LostAndFound\LostAndFound\build\intermediates\pre-dexed\debug\android-iconify-1.0.6-efeceab2661bde9c3d7eced8ee2bd7f6c2d91805.jar"
         jar="D:\Android\LostAndFound\LostAndFound\libs\android-iconify-1.0.6.jar"
