@@ -17,7 +17,7 @@ public class MyPostActivity extends Activity {
 
     private BootstrapButton toLoginBtn;
 
-    private final String ACTION_NAME = "sendBroadcast";
+    private final String ACTION_NAME = "loginSuccess";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -87,8 +87,11 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
             try {
                 if(result.getBoolean("success")){
                     userName = result.getString("user");
+                    Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    SignupActivity.this.finish();
                 } else {
                     errorCode = result.getInt("code");
+                    Toast.makeText(SignupActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

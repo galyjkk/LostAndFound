@@ -75,22 +75,13 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //登陆成功后发送广播切换布局
-                Intent mIntent = new Intent("sendBroadcast");
-                mIntent.putExtra("yaner", "发送广播，相当于在这里传送数据");
-                //发送广播
-                sendBroadcast(mIntent);
-
                 LoginActivity.this.finish();
-
             }
         });
     }
 
     public void signIn(List<NameValuePair> signInInfo) {
         new AsyncTaskHttpClient(this, this, signInInfo).execute(SignIn);
-        Toast.makeText(LoginActivity.this, "send", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -107,23 +98,22 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
         } else {
             try {
                 if(result.getBoolean("success")){
+                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     userName = result.getString("user");
+                    //登陆成功后发送广播切换布局
+                    Intent mIntent = new Intent("loginSuccess");
+                    //传送数据
+                    mIntent.putExtra("username", userName);
+                    //发送广播
+                    sendBroadcast(mIntent);
+                    LoginActivity.this.finish();
                 } else {
                     errorCode = result.getInt("code");
+                    Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
-
-//    @Override
-//    public void loading() {
-//
-//    }
-//
-//    @Override
-//    public void complete(JSONArray j) {
-//        Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
-//    }
 }
