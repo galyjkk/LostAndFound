@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.Button;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.galy.lostandfound.database.DBManager;
 import com.galy.lostandfound.database.information;
 
@@ -17,9 +19,9 @@ public class MoreActivity extends Activity {
 
     private DBManager mgr;
 
-    private Button exit;
-    private Button about;
-    private Button add;
+    private BootstrapButton exit;
+    private BootstrapButton about;
+    private BootstrapButton add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,10 @@ public class MoreActivity extends Activity {
 
         mgr = new DBManager(this);
 
-        exit = (Button)findViewById(R.id.button_exit);
+        exit = (BootstrapButton)findViewById(R.id.button_exit);
+        about = (BootstrapButton)findViewById(R.id.button_about);
+        add = (BootstrapButton)findViewById(R.id.button_add);
+
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +59,6 @@ public class MoreActivity extends Activity {
             }
         });
 
-        about = (Button)findViewById(R.id.button_about);
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +76,6 @@ public class MoreActivity extends Activity {
             }
         });
 
-        add = (Button)findViewById(R.id.button_add);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

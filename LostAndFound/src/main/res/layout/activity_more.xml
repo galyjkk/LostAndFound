@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -26,44 +29,78 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <Button
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button_add"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!--com.beardedhen.androidbootstrap.BootstrapCircleThumbnail-->
+            <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
+                android:id="@+id/thumbnail_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bootstrap:bct_image="@drawable/avatar"
+                bootstrap:bct_size="large"
+                bootstrap:bct_minimal="true"/>
+
+            <TextView
+                android:id="@+id/username_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/username"
+                android:textSize="18sp"
+                android:textColor="#444444"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/button_exit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center_vertical"
-            android:text="            退出"
-            android:textSize="20sp"
-            android:background="@drawable/more_btn"/>
+            android:text="@string/exit"
+            android:textSize="17sp"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="small"
+            bootstrapbutton:bb_type="primary"/>
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/button_about"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/button_exit"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:gravity="center_vertical"
-            android:layout_marginBottom="5dip"
-            android:text="            关于"
-            android:textSize="20sp"
-            android:background="@drawable/more_btn"/>
+            android:layout_marginBottom="10dp"
+            android:text="@string/about"
+            android:textSize="17sp"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="small"
+            bootstrapbutton:bb_type="primary"/>
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/button_add"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/button_about"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:gravity="center_vertical"
-            android:layout_marginBottom="5dip"
-            android:text="            添加内置消息"
-            android:textSize="20sp"
-            android:background="@drawable/more_btn"/>
+            android:layout_marginBottom="10dp"
+            android:text="@string/add"
+            android:textSize="17sp"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="small"
+            bootstrapbutton:bb_type="primary"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -27,10 +27,12 @@
     <string name="copyright">LostAndFound, All Rights Reserved</string>
     <string name="please_login">您还没有登录，请登录账号</string>
     <string name="nothing">暂无信息</string>
+    <string name="about">关于&#160;&#160;&#160;&#160;></string>
+    <string name="exit">退出&#160;&#160;&#160;&#160;></string>
+    <string name="add">添加内置消息&#160;&#160;></string>
+    <string name="logout">注销</string>
 
-    <!-- more页面按钮 -->
-    <string name="about">关于</string>
-    <string name="exit">退出</string>
+    <!--title-->
     <string name="title_activity_my_post">MyPostActivity</string>
     <string name="title_activity_lost_items">LostItemsActivity</string>
     <string name="title_activity_my_messages">MyMessagesActivity</string>
