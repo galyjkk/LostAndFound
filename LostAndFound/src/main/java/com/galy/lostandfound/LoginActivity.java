@@ -10,14 +10,20 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.galy.lostandfound.service.AsynchronousHttpClient;
+import com.galy.lostandfound.service.AsyncTaskHttpClient;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
-public class LoginActivity extends Activity implements AsynchronousHttpClient.ILoadListener{
+public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILoginListener{
 
     private ImageButton cancelBtn;
     private BootstrapButton signInBtn;
@@ -25,7 +31,10 @@ public class LoginActivity extends Activity implements AsynchronousHttpClient.IL
     private BootstrapEditText username;
     private BootstrapEditText password;
 
-    private static final String BASE_URL = "http://182.92.170.217:8000/register";
+    private String userName;
+    private int errorCode;
+
+    private static final String SignIn = "signin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +55,9 @@ public class LoginActivity extends Activity implements AsynchronousHttpClient.IL
                 String p = password.getText().toString();
 
                 if(u != "" && p != "") {
-                    HashMap<String, String> signInInfo = new HashMap<String, String>();
-                    signInInfo.put("username", u);
-                    signInInfo.put("password", p);
+                    List<NameValuePair> signInInfo = new ArrayList<NameValuePair>(2);
+                    signInInfo.add(new BasicNameValuePair("username", u));
+                    signInInfo.add(new BasicNameValuePair("password", p));
 
                     signIn(signInInfo);
                 }
@@ -71,8 +80,8 @@ public class LoginActivity extends Activity implements AsynchronousHttpClient.IL
         });
     }
 
-    public void signIn(HashMap signInInfo) {
-//        new AsynchronousHttpClient(BASE_URL, this, this).post(signInInfo);
+    public void signIn(List<NameValuePair> signInInfo) {
+        new AsyncTaskHttpClient(this, this, signInInfo).execute(SignIn);
         Toast.makeText(LoginActivity.this, "send", Toast.LENGTH_SHORT).show();
     }
 
@@ -81,8 +90,32 @@ public class LoginActivity extends Activity implements AsynchronousHttpClient.IL
 
     }
 
+    // success == true 返回用户名(String)
+    // success == false 返回错误码(int)，102:用户名或密码错误,103:没有输入用户名或者密码,104:登录时发生其他错误
     @Override
-    public void complete(JSONArray j) {
-        Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
+    public void complete(JSONObject result) {
+        if (result == null){
+            Toast.makeText(LoginActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                if(result.getBoolean("success")){
+                    userName = result.getString("user");
+                } else {
+                    errorCode = result.getInt("code");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+//    @Override
+//    public void loading() {
+//
+//    }
+//
+//    @Override
+//    public void complete(JSONArray j) {
+//        Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
+//    }
 }
