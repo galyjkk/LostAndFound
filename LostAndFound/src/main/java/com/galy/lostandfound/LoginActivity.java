@@ -110,7 +110,7 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
                     LoginActivity.this.finish();
                 } else {
                     errorCode = result.getInt("code");
-                    Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "登录失败"+errorCode, Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
