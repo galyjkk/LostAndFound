@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.galy.lostandfound.database.DBManager;
+import com.galy.lostandfound.database.UserToken;
 import com.galy.lostandfound.service.AsyncTaskHttpClient;
 
 import org.apache.http.NameValuePair;
@@ -34,6 +36,8 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
     private String userName;
     private int errorCode;
 
+    private DBManager tokenDB;
+
     private static final String SignIn = "signin";
 
     @Override
@@ -41,6 +45,8 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+
+        tokenDB = new DBManager(this);
 
         cancelBtn = (ImageButton) findViewById(R.id.cancel_login);
         signInBtn = (BootstrapButton) findViewById(R.id.sign_in_login);
@@ -101,6 +107,14 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
                 if(result.getBoolean("success")){
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     userName = result.getString("user");
+                    String token = result.getString("token");
+                    UserToken t = new UserToken(userName, token);
+                    if (tokenDB.queryToken() == null){
+                        tokenDB.add(t);
+                    } else {
+                        tokenDB.updateToken(t);
+                    }
+
                     //登陆成功后发送广播切换布局
                     Intent mIntent = new Intent("loginSuccess");
                     //传送数据

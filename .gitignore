@@ -1,5 +1,6 @@
 .gradle
 /local.properties
 /.idea/workspace.xml
-build
+/build/intermediates/model_data.bin
+/build/intermediates/dex-cache/cache.xml
 .DS_Store
