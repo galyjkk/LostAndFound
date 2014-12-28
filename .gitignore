@@ -1,5 +1,5 @@
 .gradle
 /local.properties
 /.idea/workspace.xml
-/build
+build
 .DS_Store

@@ -2,12 +2,17 @@ package com.galy.lostandfound;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.galy.lostandfound.database.DBManager;
@@ -19,9 +24,12 @@ public class MoreActivity extends Activity {
 
     private DBManager mgr;
 
+    private final String ACTION_NAME = "loginSuccess";
+
     private BootstrapButton exit;
     private BootstrapButton about;
     private BootstrapButton add;
+    private TextView signInText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +37,15 @@ public class MoreActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_more);
 
+        //注册广播
+        registerBroadcastReceiver();
+
         mgr = new DBManager(this);
 
         exit = (BootstrapButton)findViewById(R.id.button_exit);
         about = (BootstrapButton)findViewById(R.id.button_about);
         add = (BootstrapButton)findViewById(R.id.button_add);
+        signInText = (TextView)findViewById(R.id.username_more);
 
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +75,7 @@ public class MoreActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MoreActivity.this);
-                builder.setMessage("Version 1.0.0 Made by Galy");
+                builder.setMessage("Version 1.0.0 Made by L&F Group");
                 builder.setTitle("关于Lost&Found");
                 builder.setNeutralButton("确认",
                         new android.content.DialogInterface.OnClickListener() {
@@ -80,6 +92,14 @@ public class MoreActivity extends Activity {
             @Override
             public void onClick(View view) {
                 addInformations();
+            }
+        });
+
+        signInText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MoreActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -107,5 +127,28 @@ public class MoreActivity extends Activity {
         informations.add(information5);
 
         mgr.add(informations);
+    }
+
+    //receiver
+    private BroadcastReceiver onMoreReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            String username = intent.getStringExtra("username");
+            if(action.equals(ACTION_NAME)) {
+                //Toast.makeText(MoreActivity.this, "MoreActivity接收广播", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.activity_more_login);
+                //unregisterReceiver(onPostReceiver);
+                signInText = (TextView)findViewById(R.id.username_more);
+                signInText.setText(username);
+            }
+        }
+    };
+
+    public void registerBroadcastReceiver(){
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION_NAME);
+        //注册广播
+        registerReceiver(onMoreReceiver, myIntentFilter);
     }
 }

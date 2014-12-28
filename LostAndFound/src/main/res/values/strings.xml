@@ -30,7 +30,8 @@
     <string name="about">关于&#160;&#160;&#160;&#160;></string>
     <string name="exit">退出&#160;&#160;&#160;&#160;></string>
     <string name="add">添加内置消息&#160;&#160;></string>
-    <string name="logout">注销</string>
+    <string name="logout">注销&#160;&#160;&#160;&#160;></string>
+    <string name="sign_in_text">点击此处登陆</string>
 
     <!--title-->
     <string name="title_activity_my_post">MyPostActivity</string>
