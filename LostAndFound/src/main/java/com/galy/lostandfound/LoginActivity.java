@@ -69,6 +69,7 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
             public void onClick(View view) {
                 Intent toSignUpIntent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(toSignUpIntent);
+                LoginActivity.this.finish();
             }
         });
 

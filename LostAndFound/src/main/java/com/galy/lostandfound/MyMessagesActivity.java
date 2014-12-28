@@ -24,7 +24,7 @@ public class MyMessagesActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_my_messages);
 
-        registerBoradcastReceiver();
+        registerBroadcastReceiver();
 
         toLoginBtn = (BootstrapButton) findViewById(R.id.to_login_my_messages);
 
@@ -43,8 +43,7 @@ public class MyMessagesActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(action.equals(ACTION_NAME)) {
-                Toast.makeText(MyMessagesActivity.this, "MyMessagesActivity接收广播", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(MyMessagesActivity.this, "MyMessagesActivity接收广播", Toast.LENGTH_SHORT).show();
                 setContentView(R.layout.activity_my_messages_login);
                 //unregisterReceiver(onPostReceiver);
 
@@ -52,7 +51,7 @@ public class MyMessagesActivity extends Activity {
         }
     };
 
-    public void registerBoradcastReceiver(){
+    public void registerBroadcastReceiver(){
         IntentFilter myIntentFilter = new IntentFilter();
         myIntentFilter.addAction(ACTION_NAME);
         //注册广播

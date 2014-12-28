@@ -1,6 +1,9 @@
 package com.galy.lostandfound;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -76,13 +79,55 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
     }
 
     private void signUp(){
-//        JSONObject signUp = new JSONObject();
-        List<NameValuePair> signUp = new ArrayList<NameValuePair>(3);
-        signUp.add(new BasicNameValuePair("username", userNameText.getText().toString()));
-        signUp.add(new BasicNameValuePair("password", passWordText.getText().toString()));
-        signUp.add(new BasicNameValuePair("confirm", passWordConfirmText.getText().toString()));
+        String username = userNameText.getText().toString();
+        String password = passWordText.getText().toString();
+        String confirm = passWordConfirmText.getText().toString();
 
-        new AsyncTaskHttpClient(this,this,signUp).execute(SignUp);
+        if (username.length() == 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+            builder.setMessage("请输入用户名");
+            builder.setTitle("错误");
+            builder.setNeutralButton("确认",
+                    new android.content.DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        } else if (password.length() < 8 || password.length() > 32) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+            builder.setMessage("密码格式错误");
+            builder.setTitle("错误");
+            builder.setNeutralButton("确认",
+                    new android.content.DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        } else if (!confirm.equals(password)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+            builder.setMessage("两次密码不一致");
+            builder.setTitle("错误");
+            builder.setNeutralButton("确认",
+                    new android.content.DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        } else {
+//        JSONObject signUp = new JSONObject();
+            List<NameValuePair> signUp = new ArrayList<NameValuePair>(3);
+            signUp.add(new BasicNameValuePair("username", username));
+            signUp.add(new BasicNameValuePair("password", password));
+            signUp.add(new BasicNameValuePair("confirm", confirm));
+
+            new AsyncTaskHttpClient(this,this,signUp).execute(SignUp);
+        }
     }
 
     @Override
@@ -102,6 +147,12 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
                     UserToken token = new UserToken(result.getString("user"), result.getString("token"));
                     tokenDB.add(token);
                     Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    //登陆成功后发送广播切换布局
+                    Intent mIntent = new Intent("loginSuccess");
+                    //传送数据
+                    mIntent.putExtra("username", userName);
+                    //发送广播
+                    sendBroadcast(mIntent);
                     SignupActivity.this.finish();
                 } else {
                     errorCode = result.getInt("code");
