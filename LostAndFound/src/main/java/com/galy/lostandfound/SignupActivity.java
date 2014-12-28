@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.galy.lostandfound.database.DBManager;
+import com.galy.lostandfound.database.UserToken;
 import com.galy.lostandfound.service.AsyncTaskHttpClient;
 
 import org.apache.http.NameValuePair;
@@ -29,8 +31,11 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
     private BootstrapEditText passWordText;
     private BootstrapEditText passWordConfirmText;
 
-    private String userName;
+//    private String userName;
+//    private String userToken;
     private int errorCode;
+
+    private DBManager tokenDB;
 
     private static final String SignUp = "newuser";
 
@@ -39,6 +44,8 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_signup);
+
+        tokenDB = new DBManager(this);
 
         cancelBtn = (ImageButton) findViewById(R.id.cancel_signup);
         signUpBtn = (BootstrapButton) findViewById(R.id.sign_up_signup);
@@ -60,6 +67,12 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
                 signUp();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        tokenDB.closeDB();
     }
 
     private void signUp(){
@@ -86,7 +99,8 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
         } else {
             try {
                 if(result.getBoolean("success")){
-                    userName = result.getString("user");
+                    UserToken token = new UserToken(result.getString("user"), result.getString("token"));
+                    tokenDB.add(token);
                     Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     SignupActivity.this.finish();
                 } else {
