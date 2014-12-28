@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.IconTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,8 +26,10 @@ public class DetailsActivity extends Activity {
     private TextView content_details;
     private TextView num_details;
     private ImageButton back;
-    private ImageButton call;
-    private ImageButton message;
+    //private ImageButton call;
+    private IconTextView call;
+    private IconTextView message;
+    //private ImageButton message;
 
     private String num;
 
@@ -40,8 +43,8 @@ public class DetailsActivity extends Activity {
         content_details = (TextView)findViewById(R.id.text_content_details);
         num_details = (TextView)findViewById(R.id.text_number_details);
         back = (ImageButton)findViewById(R.id.image_button_back_details);
-        call = (ImageButton)findViewById(R.id.image_button_call_details);
-        message = (ImageButton)findViewById(R.id.image_button_message_details);
+        call = (IconTextView)findViewById(R.id.image_button_call_details);
+        message = (IconTextView)findViewById(R.id.image_button_message_details);
 
         //初始化DBManager
         mgr = new DBManager(this);

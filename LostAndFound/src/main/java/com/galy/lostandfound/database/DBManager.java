@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DBManager {
@@ -35,6 +36,20 @@ public class DBManager {
         }
     }
 
+    /**
+     * add user token
+     * @param token
+     */
+    public void add(UserToken token){
+        db.beginTransaction();;
+        try{
+            db.execSQL("INSERT INTO token VALUES(null, ?, ?)", new Object[]{token.username, token.token});
+            db.setTransactionSuccessful();;
+        } finally {
+            db.endTransaction();
+        }
+    }
+
 //    /**
 //     * update information's headline
 //     * @param information
@@ -55,7 +70,7 @@ public class DBManager {
 
 
     /**
-     * query all persons, return list
+     * query all imformations, return list
      * @return List<information>
      */
     public List<information> query() {
@@ -75,7 +90,33 @@ public class DBManager {
     }
 
     /**
-     * query all persons, return cursor
+     * query user token
+     *
+     */
+     public UserToken queryToken(){
+         UserToken token = new UserToken();
+         Cursor c = db.rawQuery("SELECT * FROM token", null);
+         c.moveToFirst();
+
+         try {
+             token._id = c.getInt(c.getColumnIndex("_id"));
+             token.username = c.getString(c.getColumnIndex("username"));
+             token.token = c.getString(c.getColumnIndex("token"));
+         } catch (CursorIndexOutOfBoundsException e) {
+             token = null;
+         }
+         c.close();
+         return token;
+     }
+
+    public void updateToken(UserToken t){
+        ContentValues cv = new ContentValues();
+        cv.put("token", t.token);
+        db.update("token", cv, "username = ?", new String[]{t.username});
+    }
+
+    /**
+     * query all imformations, return cursor
      * @return	Cursor
      */
     public Cursor queryTheCursor() {

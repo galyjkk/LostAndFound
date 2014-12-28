@@ -26,7 +26,7 @@ public class MyPostActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_my_post);
 
-        registerBoradcastReceiver();
+        registerBroadcastReceiver();
 
         toLoginBtn = (BootstrapButton) findViewById(R.id.to_login_my_post);
 
@@ -45,8 +45,7 @@ public class MyPostActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(action.equals(ACTION_NAME)) {
-                Toast.makeText(MyPostActivity.this, "MyPostActivity接收广播", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(MyPostActivity.this, "MyPostActivity接收广播", Toast.LENGTH_SHORT).show();
                 setContentView(R.layout.activity_my_post_login);
                 //unregisterReceiver(onPostReceiver);
 
@@ -54,7 +53,7 @@ public class MyPostActivity extends Activity {
         }
     };
 
-    public void registerBoradcastReceiver(){
+    public void registerBroadcastReceiver(){
         IntentFilter myIntentFilter = new IntentFilter();
         myIntentFilter.addAction(ACTION_NAME);
         //注册广播

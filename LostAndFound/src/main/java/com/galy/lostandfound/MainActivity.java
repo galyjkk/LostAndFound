@@ -23,18 +23,32 @@ import android.widget.Toast;
 import android.app.TabActivity;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.galy.lostandfound.database.DBManager;
+import com.galy.lostandfound.database.UserToken;
+import com.galy.lostandfound.service.AsyncTaskHttpClient;
 import com.joanzapata.android.iconify.Iconify;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends TabActivity implements OnCheckedChangeListener{
+public class MainActivity extends TabActivity implements OnCheckedChangeListener, AsyncTaskHttpClient.ILoginListener{
     private RadioGroup mainTab;
     private ViewPager mPager;
     private List<View> listViews;
     private LocalActivityManager manager = null;
     private MyPagerAdapter mpAdapter = null;
     private int index;
+
+    private DBManager mgr;
+    private UserToken token;
+
+    private static final String Validate = "validate";
+    private String userName;
 
     @Override
     protected void onStart() {
@@ -101,6 +115,44 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         }
     }
 
+    private void checkToken(){
+        mgr = new DBManager(this);
+        token = mgr.queryToken();
+
+        if (token != null) {
+            List<NameValuePair> t = new ArrayList<NameValuePair>(2);
+            t.add(new BasicNameValuePair("username", token.username));
+            t.add(new BasicNameValuePair("token", token.token));
+
+            new AsyncTaskHttpClient(this,this,t).execute(Validate);
+        }
+    }
+
+    @Override
+    public void loading() {
+
+    }
+
+    @Override
+    public void complete(JSONObject result) {
+        if (result == null){
+            Toast.makeText(MainActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                if(result.getBoolean("success")){
+                    userName = result.getString("user");
+                    //登陆成功后发送广播切换布局
+                    Intent mIntent = new Intent("loginSuccess");
+                    //传送数据
+                    mIntent.putExtra("username", userName);
+                    //发送广播
+                    sendBroadcast(mIntent);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +169,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         //tabhost
         mainTab = (RadioGroup)findViewById(R.id.main_tab);
         mainTab.setOnCheckedChangeListener(MainActivity.this);
+
+        checkToken();
     }
 
     @Override
