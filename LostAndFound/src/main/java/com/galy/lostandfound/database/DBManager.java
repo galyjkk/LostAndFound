@@ -109,6 +109,12 @@ public class DBManager {
          return token;
      }
 
+    public void updateToken(UserToken t){
+        ContentValues cv = new ContentValues();
+        cv.put("token", t.token);
+        db.update("token", cv, "username = ?", new String[]{t.username});
+    }
+
     /**
      * query all imformations, return cursor
      * @return	Cursor

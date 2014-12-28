@@ -144,13 +144,15 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
         } else {
             try {
                 if(result.getBoolean("success")){
-                    UserToken token = new UserToken(result.getString("user"), result.getString("token"));
-                    tokenDB.add(token);
+                    String name = result.getString("user");
+                    String token = result.getString("token");
+                    UserToken t = new UserToken(name, token);
+                    tokenDB.add(t);
                     Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     //登陆成功后发送广播切换布局
                     Intent mIntent = new Intent("loginSuccess");
                     //传送数据
-                    mIntent.putExtra("username", userName);
+                    mIntent.putExtra("username", name);
                     //发送广播
                     sendBroadcast(mIntent);
                     SignupActivity.this.finish();
