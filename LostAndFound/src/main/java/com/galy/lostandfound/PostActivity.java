@@ -66,7 +66,7 @@ public class PostActivity extends Activity implements AsyncTaskHttpClient.ILogin
         Intent intent = getIntent();
         String fromLost = intent.getStringExtra("fromLost");
         String fromFound =intent.getStringExtra("fromFound");
-        username = intent.getStringExtra("");
+        username = intent.getStringExtra("name");
 
         if(fromLost != null){
             radio_button_lost.setChecked(true);
@@ -129,8 +129,6 @@ public class PostActivity extends Activity implements AsyncTaskHttpClient.ILogin
                             });
                     builder.create().show();
                 }else {
-                    ArrayList<information> addNewInfos = new ArrayList<information>();
-                    information addNewInfo = new information(headline, content, lostorfound, number);
                     List<NameValuePair> article = new ArrayList<NameValuePair>(5);
                     article.add(new BasicNameValuePair("username", username));
                     article.add(new BasicNameValuePair("intention", Integer.toString(lostorfound)));
@@ -138,6 +136,8 @@ public class PostActivity extends Activity implements AsyncTaskHttpClient.ILogin
                     article.add(new BasicNameValuePair("title", headline));
                     article.add(new BasicNameValuePair("content", content));
                     postArticle(article);
+//                    ArrayList<information> addNewInfos = new ArrayList<information>();
+//                    information addNewInfo = new information(headline, content, lostorfound, number);
 //                    addNewInfos.add(addNewInfo);
 //                    mgr.add(addNewInfos);
 //                    Toast.makeText(PostActivity.this, "发布成功", Toast.LENGTH_SHORT).show();

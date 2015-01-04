@@ -38,6 +38,7 @@ public class FoundItemsActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_found_items);
+        registerBroadcastReceiver();
 
         //final TextView tv1 = (TextView) findViewById(R.id.label);
         lv_found = (ListView) findViewById(R.id.lv_found_items);
