@@ -17,16 +17,42 @@ public class MyPostActivity extends Activity {
 
     private BootstrapButton toLoginBtn;
 
-    private final String ACTION_NAME = "loginSuccess";
+    private final String ACTION_LOGIN = "loginSuccess";
+    private final String ACTION_LOGOUT = "logoutSuccess";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_my_post);
 
         registerBroadcastReceiver();
+        visitorLayout();
+    }
+
+    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(ACTION_LOGIN)) {
+                userLayout();
+            }
+            if (action.equals(ACTION_LOGOUT)) {
+                visitorLayout();
+            }
+        }
+    };
+
+    public void registerBroadcastReceiver(){
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION_LOGIN);
+        myIntentFilter.addAction(ACTION_LOGOUT);
+        //注册广播
+        registerReceiver(onPostReceiver, myIntentFilter);
+    }
+
+    private void visitorLayout() {
+        setContentView(R.layout.activity_my_post);
 
         toLoginBtn = (BootstrapButton) findViewById(R.id.to_login_my_post);
 
@@ -40,23 +66,7 @@ public class MyPostActivity extends Activity {
         });
     }
 
-    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equals(ACTION_NAME)) {
-                //Toast.makeText(MyPostActivity.this, "MyPostActivity接收广播", Toast.LENGTH_SHORT).show();
-                setContentView(R.layout.activity_my_post_login);
-                //unregisterReceiver(onPostReceiver);
-
-            }
-        }
-    };
-
-    public void registerBroadcastReceiver(){
-        IntentFilter myIntentFilter = new IntentFilter();
-        myIntentFilter.addAction(ACTION_NAME);
-        //注册广播
-        registerReceiver(onPostReceiver, myIntentFilter);
+    private void userLayout() {
+        setContentView(R.layout.activity_my_post_login);
     }
 }
