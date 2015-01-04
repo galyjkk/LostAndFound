@@ -124,7 +124,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
             t.add(new BasicNameValuePair("username", token.username));
             t.add(new BasicNameValuePair("token", token.token));
 
-            new AsyncTaskHttpClient(this,this,t).execute(Validate);
+            new AsyncTaskHttpClient(this,"post",this,t).execute(Validate);
         }
     }
 

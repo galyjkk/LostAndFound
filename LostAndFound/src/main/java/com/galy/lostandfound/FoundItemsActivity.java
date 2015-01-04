@@ -1,7 +1,10 @@
 package com.galy.lostandfound;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +30,8 @@ public class FoundItemsActivity extends Activity {
     private ImageButton refresh_found;
     private ImageButton post_found;
 
+    private final String ACTION_NAME = "loginSuccess";
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class FoundItemsActivity extends Activity {
             public void onClick(View view) {
                 Intent toPost = new Intent(FoundItemsActivity.this, PostActivity.class);
                 toPost.putExtra("fromFound", "found");
+                toPost.putExtra("name",username);
                 startActivity(toPost);
             }
         });
@@ -92,5 +98,23 @@ public class FoundItemsActivity extends Activity {
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_found_items,
                 new String[]{"_id", "headline", "content"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText});
         lv_found.setAdapter(adapter);
+    }
+
+    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            username = intent.getStringExtra("username");
+            if(action.equals(ACTION_NAME)) {
+
+            }
+        }
+    };
+
+    public void registerBroadcastReceiver(){
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION_NAME);
+        //注册广播
+        registerReceiver(onPostReceiver, myIntentFilter);
     }
 }

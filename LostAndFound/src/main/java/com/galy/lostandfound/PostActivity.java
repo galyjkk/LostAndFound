@@ -2,8 +2,11 @@ package com.galy.lostandfound;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,11 +18,19 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.galy.lostandfound.database.DBManager;
+import com.galy.lostandfound.database.UserToken;
 import com.galy.lostandfound.database.information;
+import com.galy.lostandfound.service.AsyncTaskHttpClient;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class PostActivity extends Activity {
+public class PostActivity extends Activity implements AsyncTaskHttpClient.ILoginListener {
 
     private DBManager mgr;
 
@@ -32,6 +43,9 @@ public class PostActivity extends Activity {
     private ImageButton back;
 
     private int lostorfound;
+
+    private static final String POSTARTICLE = "postArticle";
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,7 @@ public class PostActivity extends Activity {
         Intent intent = getIntent();
         String fromLost = intent.getStringExtra("fromLost");
         String fromFound =intent.getStringExtra("fromFound");
+        username = intent.getStringExtra("");
 
         if(fromLost != null){
             radio_button_lost.setChecked(true);
@@ -116,10 +131,17 @@ public class PostActivity extends Activity {
                 }else {
                     ArrayList<information> addNewInfos = new ArrayList<information>();
                     information addNewInfo = new information(headline, content, lostorfound, number);
-                    addNewInfos.add(addNewInfo);
-                    mgr.add(addNewInfos);
-                    Toast.makeText(PostActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                    PostActivity.this.finish();
+                    List<NameValuePair> article = new ArrayList<NameValuePair>(5);
+                    article.add(new BasicNameValuePair("username", username));
+                    article.add(new BasicNameValuePair("intention", Integer.toString(lostorfound)));
+                    article.add(new BasicNameValuePair("cellphone", number));
+                    article.add(new BasicNameValuePair("title", headline));
+                    article.add(new BasicNameValuePair("content", content));
+                    postArticle(article);
+//                    addNewInfos.add(addNewInfo);
+//                    mgr.add(addNewInfos);
+//                    Toast.makeText(PostActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+//                    PostActivity.this.finish();
                 }
             }
         });
@@ -129,6 +151,10 @@ public class PostActivity extends Activity {
     public void onBackPressed() {
         Log.i("", "onBackPressed()");
         Back();
+    }
+
+    public void postArticle(List<NameValuePair> article){
+        new AsyncTaskHttpClient(this, "post", this, article).execute(POSTARTICLE);
     }
 
     //返回键调用方法
@@ -154,4 +180,28 @@ public class PostActivity extends Activity {
         builder.create().show();
     }
 
+    @Override
+    public void loading() {
+
+    }
+
+    @Override
+    public void complete(JSONObject result) {
+        if (result == null){
+            Toast.makeText(PostActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                if(result.getBoolean("success")){
+                    Toast.makeText(PostActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                    PostActivity.this.finish();
+                } else {
+                    String errorString = result.getString("error");
+                    Toast.makeText(PostActivity.this, "发布失败 "+errorString, Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

@@ -41,10 +41,10 @@ public class DBManager {
      * @param token
      */
     public void add(UserToken token){
-        db.beginTransaction();;
+        db.beginTransaction();
         try{
             db.execSQL("INSERT INTO token VALUES(null, ?, ?)", new Object[]{token.username, token.token});
-            db.setTransactionSuccessful();;
+            db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
@@ -110,9 +110,17 @@ public class DBManager {
      }
 
     public void updateToken(UserToken t){
-        ContentValues cv = new ContentValues();
-        cv.put("token", t.token);
-        db.update("token", cv, "username = ?", new String[]{t.username});
+        db.beginTransaction();
+        try{
+            db.execSQL("DELETE FROM token");
+            db.execSQL("INSERT INTO token VALUES(null, ?, ?)", new Object[]{t.username, t.token});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+//        ContentValues cv = new ContentValues();
+//        cv.put("token", t.token);
+//        db.update("token", cv, "username = ?", new String[]{t.username});
     }
 
     /**

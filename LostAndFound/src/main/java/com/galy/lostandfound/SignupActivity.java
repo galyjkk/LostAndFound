@@ -126,7 +126,7 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
             signUp.add(new BasicNameValuePair("password", password));
             signUp.add(new BasicNameValuePair("confirm", confirm));
 
-            new AsyncTaskHttpClient(this,this,signUp).execute(SignUp);
+            new AsyncTaskHttpClient(this,"post",this,signUp).execute(SignUp);
         }
     }
 
@@ -147,7 +147,11 @@ public class SignupActivity extends Activity implements AsyncTaskHttpClient.ILog
                     String name = result.getString("user");
                     String token = result.getString("token");
                     UserToken t = new UserToken(name, token);
-                    tokenDB.add(t);
+                    if (tokenDB.queryToken() == null){
+                        tokenDB.add(t);
+                    } else {
+                        tokenDB.updateToken(t);
+                    }
                     Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     //登陆成功后发送广播切换布局
                     Intent mIntent = new Intent("loginSuccess");

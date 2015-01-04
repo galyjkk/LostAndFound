@@ -88,7 +88,7 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
     }
 
     public void signIn(List<NameValuePair> signInInfo) {
-        new AsyncTaskHttpClient(this, this, signInInfo).execute(SignIn);
+        new AsyncTaskHttpClient(this, "post",this, signInInfo).execute(SignIn);
     }
 
     @Override
@@ -114,7 +114,6 @@ public class LoginActivity extends Activity implements AsyncTaskHttpClient.ILogi
                     } else {
                         tokenDB.updateToken(t);
                     }
-
                     //登陆成功后发送广播切换布局
                     Intent mIntent = new Intent("loginSuccess");
                     //传送数据

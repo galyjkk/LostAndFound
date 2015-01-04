@@ -1,7 +1,10 @@
 package com.galy.lostandfound;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.graphics.Typeface;
@@ -26,22 +29,31 @@ import java.util.Map;
 import com.galy.lostandfound.database.DBManager;
 import com.galy.lostandfound.database.information;
 
+import com.galy.lostandfound.service.AsyncTaskHttpClient;
 import com.joanzapata.android.iconify.*;
 
+import org.json.JSONObject;
 
-public class LostItemsActivity extends Activity {
+
+public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.ILoginListener {
 
     private DBManager mgr;
     private ListView lv_lost;
     private ImageButton refresh_lost;
     private ImageButton post_lost;
 
+    private static final String GetArticles = "getArticles";
+    private static final String GETALL = "?tag=0";
+    private final String ACTION_NAME = "loginSuccess";
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_lost_items);
+
+        registerBroadcastReceiver();
 
         lv_lost = (ListView) findViewById(R.id.lv_lost_items);
         refresh_lost = (ImageButton)findViewById(R.id.image_button_refresh_lost);
@@ -70,6 +82,7 @@ public class LostItemsActivity extends Activity {
             public void onClick(View view) {
                 Intent toPost = new Intent(LostItemsActivity.this, PostActivity.class);
                 toPost.putExtra("fromLost", "lost");
+                toPost.putExtra("name",username);
                 startActivity(toPost);
             }
         });
@@ -84,6 +97,34 @@ public class LostItemsActivity extends Activity {
 
     //找东西查询
     public void query(View view) {
+        new AsyncTaskHttpClient(this, "get", this).execute(GetArticles,GETALL);
+//        List<information> informations = mgr.query();
+//        ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+//        for (information information : informations) {
+//            if(information.lostorfound == 0)
+//            {
+//                HashMap<String, String> map = new HashMap<String, String>();
+//                String _id = Integer.toString(information._id);
+//                map.put("_id", _id);
+//                map.put("headline", information.headline);
+//                map.put("content", information.content);
+//                list.add(map);
+//            }
+//        }
+//        SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_lost_items,
+//                new String[]{"_id", "headline", "content"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText});
+//        lv_lost.setAdapter(adapter);
+    }
+
+    @Override
+    public void loading() {
+
+    }
+
+    @Override
+    public void complete(JSONObject result) {
+        // read result first and put them to information list
+
         List<information> informations = mgr.query();
         ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
         for (information information : informations) {
@@ -100,5 +141,23 @@ public class LostItemsActivity extends Activity {
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_lost_items,
                 new String[]{"_id", "headline", "content"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText});
         lv_lost.setAdapter(adapter);
+    }
+
+    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            username = intent.getStringExtra("username");
+            if(action.equals(ACTION_NAME)) {
+
+            }
+        }
+    };
+
+    public void registerBroadcastReceiver(){
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION_NAME);
+        //注册广播
+        registerReceiver(onPostReceiver, myIntentFilter);
     }
 }
