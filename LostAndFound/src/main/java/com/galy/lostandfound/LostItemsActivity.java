@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,11 +28,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.galy.lostandfound.database.DBManager;
+import com.galy.lostandfound.database.UserToken;
 import com.galy.lostandfound.database.information;
 
 import com.galy.lostandfound.service.AsyncTaskHttpClient;
 import com.joanzapata.android.iconify.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -124,6 +128,30 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
     @Override
     public void complete(JSONObject result) {
         // read result first and put them to information list
+
+        if (result == null){
+            Toast.makeText(LostItemsActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                if(result.getBoolean("success")){
+                    ArrayList<information> newInfo = new ArrayList<information>();
+                    JSONArray list = result.getJSONArray("list");
+                    for (int i=0;i<list.length();i++){
+                        JSONObject infoObj = list.getJSONObject(i);
+                        information information = new information(infoObj.getString("title"),
+                        infoObj.getString("content"),
+                        infoObj.getInt("intent"),
+                        infoObj.getString("phone"));
+                        newInfo.add(information);
+                    }
+                    mgr.add(newInfo);
+                } else {
+                    Toast.makeText(LostItemsActivity.this, result.getInt("error"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         List<information> informations = mgr.query();
         ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
