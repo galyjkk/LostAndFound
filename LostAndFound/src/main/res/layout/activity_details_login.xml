@@ -31,7 +31,6 @@
             android:text="@string/details"
             android:textColor="#FFFFFF"
             android:textSize="25sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,6 +61,56 @@
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:layout_marginBottom="5dip"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_contact_details"
+            android:text="联系方式："
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_above="@+id/text_number_details"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:id="@+id/text_number_details"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dip"
+            android:lines="3"
+            android:layout_marginRight="15dip"
+            android:layout_marginBottom="5dip"/>
+
+        <IconTextView
+            android:id="@+id/image_button_call_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="{fa-phone-square}"
+            android:textColor="#777777"
+            android:textSize="30sp"
+            android:gravity="center_vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/image_button_message_details"
+            android:layout_marginRight="30dip"
+            android:layout_marginBottom="20dip"/>
+
+        <IconTextView
+            android:id="@+id/image_button_message_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="{fa-envelope-square}"
+            android:textColor="#777777"
+            android:textSize="30sp"
+            android:gravity="center_vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dip"
+            android:layout_marginBottom="20dip"/>
 
     </RelativeLayout>
 

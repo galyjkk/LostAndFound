@@ -56,6 +56,7 @@ public class FoundItemsActivity extends Activity {
                 String MessageId = StringId.getText().toString();
                 Intent toDetails = new Intent(FoundItemsActivity.this, DetailsActivity.class);
                 toDetails.putExtra("messageId", MessageId);
+                toDetails.putExtra("username", username);
                 startActivity(toDetails);
             }
         });

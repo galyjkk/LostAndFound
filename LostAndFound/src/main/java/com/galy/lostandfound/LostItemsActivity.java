@@ -74,6 +74,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
                 String MessageId = StringId.getText().toString();
                 Intent toDetails = new Intent(LostItemsActivity.this, DetailsActivity.class);
                 toDetails.putExtra("messageId", MessageId);
+                toDetails.putExtra("username", username);
                 startActivity(toDetails);
             }
         });
@@ -141,7 +142,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
                         information information = new information(infoObj.getString("title"),
                         infoObj.getString("content"),
                         infoObj.getInt("intent"),
-                        infoObj.getString("phone"));
+                        infoObj.getString("phone"), "0");
                         newInfo.add(information);
                     }
                     mgr.add(newInfo);
@@ -176,6 +177,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             username = intent.getStringExtra("username");
+            Log.i("username:", username);
             if(action.equals(ACTION_NAME)) {
 
             }

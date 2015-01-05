@@ -28,7 +28,7 @@ public class DBManager {
         db.beginTransaction();	//开始事务
         try {
             for (information information : informations) {
-                db.execSQL("INSERT INTO information VALUES(null, ?, ?, ?, ?)", new Object[]{information.headline, information.content, information.lostorfound, information.number});
+                db.execSQL("INSERT INTO information VALUES(null, ?, ?, ?, ?, ?)", new Object[]{information.headline, information.content, information.lostorfound, information.number, information.pubDate});
             }
             db.setTransactionSuccessful();	//设置事务成功完成
         } finally {
@@ -83,6 +83,7 @@ public class DBManager {
             information.content = c.getString(c.getColumnIndex("content"));
             information.lostorfound = c.getInt(c.getColumnIndex("lostorfound"));
             information.number = c.getString(c.getColumnIndex("number"));
+            information.pubDate = c.getString(c.getColumnIndex("pubDate"));
             informations.add(information);
         }
         c.close();
@@ -121,6 +122,16 @@ public class DBManager {
 //        ContentValues cv = new ContentValues();
 //        cv.put("token", t.token);
 //        db.update("token", cv, "username = ?", new String[]{t.username});
+    }
+
+    public void deleteToken() {
+        db.beginTransaction();
+        try{
+            db.execSQL("DELETE FROM token");
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     /**
