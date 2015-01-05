@@ -268,6 +268,7 @@ public class MoreActivity extends Activity implements AsyncTaskHttpClient.ILogin
         } else {
             try {
                 if (result.getBoolean("success")){
+                    mgr.deleteToken();
                     Intent mIntent = new Intent("logoutSuccess");
                     sendBroadcast(mIntent);
                 }

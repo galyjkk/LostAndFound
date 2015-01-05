@@ -63,11 +63,6 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
 
-        <service
-            android:name="com.galy.lostandfound.service.MainService"
-            android:exported="false" >
-        </service>
-
         <activity
             android:name="com.galy.lostandfound.SignupActivity"
             android:label="@string/title_activity_signup" >

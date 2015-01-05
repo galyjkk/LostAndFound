@@ -124,6 +124,16 @@ public class DBManager {
 //        db.update("token", cv, "username = ?", new String[]{t.username});
     }
 
+    public void deleteToken() {
+        db.beginTransaction();
+        try{
+            db.execSQL("DELETE FROM token");
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     /**
      * query all imformations, return cursor
      * @return	Cursor
