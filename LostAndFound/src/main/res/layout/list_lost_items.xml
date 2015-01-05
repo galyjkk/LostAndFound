@@ -45,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#777777"
-                android:text="5月25日 23:32"
                 android:layout_marginTop="5dip"
                 android:layout_below="@+id/ItemText"
                 android:layout_alignLeft="@+id/ItemText" />

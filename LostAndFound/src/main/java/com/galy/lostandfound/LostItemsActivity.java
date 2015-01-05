@@ -22,7 +22,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,8 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
     private static final String GETALL = "?tag=0";
     private final String ACTION_NAME = "loginSuccess";
     private String username = "";
+
+    private SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +146,10 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
                         information information = new information(infoObj.getString("title"),
                         infoObj.getString("content"),
                         infoObj.getInt("intent"),
-                        infoObj.getString("phone"), "0");
+                        infoObj.getString("phone"),
+                        infoObj.getString("timestamp"));
                         newInfo.add(information);
+                        Log.e("pubdate", infoObj.getString("timestamp"));
                     }
                     mgr.add(newInfo);
                 } else {
@@ -161,14 +167,21 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
             {
                 HashMap<String, String> map = new HashMap<String, String>();
                 String _id = Integer.toString(information._id);
+
+                //转换时间格式
+                long timeMillis = Long.parseLong(information.pubDate);
+                Date pubDate = new Date(timeMillis);
+                String pubDateStr = formatter.format(pubDate);
+
                 map.put("_id", _id);
                 map.put("headline", information.headline);
                 map.put("content", information.content);
+                map.put("pubDateStr", pubDateStr);
                 list.add(map);
             }
         }
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_lost_items,
-                new String[]{"_id", "headline", "content"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText});
+                new String[]{"_id", "headline", "content", "pubDateStr"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText,R.id.PubDate});
         lv_lost.setAdapter(adapter);
     }
 
