@@ -18,10 +18,14 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.galy.lostandfound.database.DBManager;
 import com.galy.lostandfound.database.information;
+import com.galy.lostandfound.service.AsyncTaskHttpClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MoreActivity extends Activity {
+public class MoreActivity extends Activity implements AsyncTaskHttpClient.ILoginListener {
 
     private DBManager mgr;
 
@@ -34,6 +38,8 @@ public class MoreActivity extends Activity {
     private BootstrapButton add;
     private BootstrapButton logout;
     private TextView signInText;
+
+    private static final String Cancle = "cancle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,8 +193,7 @@ public class MoreActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 //注销service
-                                Intent mIntent = new Intent("logoutSuccess");
-                                sendBroadcast(mIntent);
+                                cancle();
                             }
                         });
                 builder.setNegativeButton("取消",
@@ -241,5 +246,30 @@ public class MoreActivity extends Activity {
                 builder.create().show();
             }
         });
+    }
+
+    public void cancle(){
+        new AsyncTaskHttpClient(this, "get", this).execute(Cancle);
+    }
+
+    @Override
+    public void loading() {
+
+    }
+
+    @Override
+    public void complete(JSONObject result) {
+        if (result == null){
+            Toast.makeText(MoreActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                if (result.getBoolean("success")){
+                    Intent mIntent = new Intent("logoutSuccess");
+                    sendBroadcast(mIntent);
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
     }
 }
