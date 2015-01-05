@@ -141,7 +141,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
                         information information = new information(infoObj.getString("title"),
                         infoObj.getString("content"),
                         infoObj.getInt("intent"),
-                        infoObj.getString("phone"));
+                        infoObj.getString("phone"), "0");
                         newInfo.add(information);
                     }
                     mgr.add(newInfo);
