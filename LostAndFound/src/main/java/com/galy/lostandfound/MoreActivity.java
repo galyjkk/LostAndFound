@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MoreActivity extends Activity implements AsyncTaskHttpClient.ILoginListener {
+public class MoreActivity extends Activity {
 
     private DBManager mgr;
 
@@ -197,7 +197,9 @@ public class MoreActivity extends Activity implements AsyncTaskHttpClient.ILogin
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 //注销service
-                                cancle();
+                                mgr.deleteToken();
+                                Intent mIntent = new Intent("logoutSuccess");
+                                sendBroadcast(mIntent);
                             }
                         });
                 builder.setNegativeButton("取消",
@@ -250,31 +252,5 @@ public class MoreActivity extends Activity implements AsyncTaskHttpClient.ILogin
                 builder.create().show();
             }
         });
-    }
-
-    public void cancle(){
-        new AsyncTaskHttpClient(this, "get", this).execute(Cancle);
-    }
-
-    @Override
-    public void loading() {
-
-    }
-
-    @Override
-    public void complete(JSONObject result) {
-        if (result == null){
-            Toast.makeText(MoreActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
-        } else {
-            try {
-                if (result.getBoolean("success")){
-                    mgr.deleteToken();
-                    Intent mIntent = new Intent("logoutSuccess");
-                    sendBroadcast(mIntent);
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
     }
 }
