@@ -124,7 +124,10 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
         };
         //sort list
         Collections.sort(informations, comparator);
-        String timestamp = informations.get(0).pubDate;
+        String timestamp = "0";
+        if (informations.size() != 0) {
+            timestamp = informations.get(0).pubDate;
+        }
         new AsyncTaskHttpClient(this, "get", this).execute(GetArticles, GETALL+timestamp);
     }
 
