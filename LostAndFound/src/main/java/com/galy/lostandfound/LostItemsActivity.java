@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,11 +52,11 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
     private ImageButton post_lost;
 
     private static final String GetArticles = "getArticles";
-    private static final String GETALL = "?tag=0";
+    private static final String GETALL = "?tag=0&ts=";
     private final String ACTION_NAME = "loginSuccess";
     private String username = "";
 
-    private SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ");
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss ");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +67,8 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
         registerBroadcastReceiver();
 
         lv_lost = (ListView) findViewById(R.id.lv_lost_items);
-        refresh_lost = (ImageButton)findViewById(R.id.image_button_refresh_lost);
-        post_lost = (ImageButton)findViewById(R.id.image_button_post_lost);
+        refresh_lost = (ImageButton) findViewById(R.id.image_button_refresh_lost);
+        post_lost = (ImageButton) findViewById(R.id.image_button_post_lost);
 
         //初始化DBManager
         mgr = new DBManager(this);
@@ -91,7 +94,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
             public void onClick(View view) {
                 Intent toPost = new Intent(LostItemsActivity.this, PostActivity.class);
                 toPost.putExtra("fromLost", "lost");
-                toPost.putExtra("name",username);
+                toPost.putExtra("name", username);
                 startActivity(toPost);
             }
         });
@@ -106,23 +109,23 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
 
     //找东西查询
     public void query(View view) {
-        new AsyncTaskHttpClient(this, "get", this).execute(GetArticles,GETALL);
-//        List<information> informations = mgr.query();
-//        ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
-//        for (information information : informations) {
-//            if(information.lostorfound == 0)
-//            {
-//                HashMap<String, String> map = new HashMap<String, String>();
-//                String _id = Integer.toString(information._id);
-//                map.put("_id", _id);
-//                map.put("headline", information.headline);
-//                map.put("content", information.content);
-//                list.add(map);
-//            }
-//        }
-//        SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_lost_items,
-//                new String[]{"_id", "headline", "content"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText});
-//        lv_lost.setAdapter(adapter);
+        List<information> informations = mgr.query();
+
+        //sort rules
+        Comparator<information> comparator = new Comparator<information>() {
+            @Override
+            public int compare(information info1, information info2) {
+                if (Long.parseLong(info1.pubDate) > Long.parseLong(info2.pubDate)) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        };
+        //sort list
+        Collections.sort(informations, comparator);
+        String timestamp = informations.get(0).pubDate;
+        new AsyncTaskHttpClient(this, "get", this).execute(GetArticles, GETALL+timestamp);
     }
 
     @Override
@@ -134,22 +137,21 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
     public void complete(JSONObject result) {
         // read result first and put them to information list
 
-        if (result == null){
+        if (result == null) {
             Toast.makeText(LostItemsActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
         } else {
             try {
-                if(result.getBoolean("success")){
+                if (result.getBoolean("success")) {
                     ArrayList<information> newInfo = new ArrayList<information>();
                     JSONArray list = result.getJSONArray("list");
-                    for (int i=0;i<list.length();i++){
+                    for (int i = 0; i < list.length(); i++) {
                         JSONObject infoObj = list.getJSONObject(i);
                         information information = new information(infoObj.getString("title"),
-                        infoObj.getString("content"),
-                        infoObj.getInt("intent"),
-                        infoObj.getString("phone"),
-                        infoObj.getString("timestamp"));
+                                infoObj.getString("content"),
+                                infoObj.getInt("intent"),
+                                infoObj.getString("phone"),
+                                infoObj.getString("timestamp"));
                         newInfo.add(information);
-                        Log.e("pubdate", infoObj.getString("timestamp"));
                     }
                     mgr.add(newInfo);
                 } else {
@@ -160,11 +162,48 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
             }
         }
 
+        showListView();
+
+    }
+
+    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            username = intent.getStringExtra("username");
+            if (action.equals(ACTION_NAME)) {
+
+            }
+        }
+    };
+
+    public void registerBroadcastReceiver() {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION_NAME);
+        //注册广播
+        registerReceiver(onPostReceiver, myIntentFilter);
+    }
+
+    public void showListView() {
         List<information> informations = mgr.query();
+
+        //sort rules
+        Comparator<information> comparator = new Comparator<information>() {
+            @Override
+            public int compare(information info1, information info2) {
+                if (Long.parseLong(info1.pubDate) > Long.parseLong(info2.pubDate)) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        };
+        //sort list
+        Collections.sort(informations, comparator);
+
         ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
         for (information information : informations) {
-            if(information.lostorfound == 0)
-            {
+            if (information.lostorfound == 0) {
                 HashMap<String, String> map = new HashMap<String, String>();
                 String _id = Integer.toString(information._id);
 
@@ -181,26 +220,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
             }
         }
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_lost_items,
-                new String[]{"_id", "headline", "content", "pubDateStr"}, new int[]{R.id.ItemId, R.id.ItemTitle,R.id.ItemText,R.id.PubDate});
+                new String[]{"_id", "headline", "content", "pubDateStr"}, new int[]{R.id.ItemId, R.id.ItemTitle, R.id.ItemText, R.id.PubDate});
         lv_lost.setAdapter(adapter);
-    }
-
-    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            username = intent.getStringExtra("username");
-            Log.i("username:", username);
-            if(action.equals(ACTION_NAME)) {
-
-            }
-        }
-    };
-
-    public void registerBroadcastReceiver(){
-        IntentFilter myIntentFilter = new IntentFilter();
-        myIntentFilter.addAction(ACTION_NAME);
-        //注册广播
-        registerReceiver(onPostReceiver, myIntentFilter);
     }
 }
