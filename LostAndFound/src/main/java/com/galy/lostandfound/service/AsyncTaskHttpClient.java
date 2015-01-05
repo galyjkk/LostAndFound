@@ -44,7 +44,6 @@ public class AsyncTaskHttpClient extends AsyncTask<String, Void, JSONObject> {
             json = jParser.get(BASE_URL + action + param);
         }
 
-
 		return json;
 	}
 

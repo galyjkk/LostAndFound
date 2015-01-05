@@ -14,6 +14,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +55,8 @@ public class JSONParser {
             HttpPost httpPost = new HttpPost(url);
             // set post params
             if (!nameValuePairs.isEmpty()) {
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
             }
             // get respons
             HttpResponse httpResponse = httpClient.execute(httpPost);
