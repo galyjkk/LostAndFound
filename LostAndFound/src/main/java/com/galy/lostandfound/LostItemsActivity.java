@@ -147,9 +147,6 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
                 if (result.getBoolean("success")) {
                     ArrayList<information> newInfo = new ArrayList<information>();
                     JSONArray list = result.getJSONArray("list");
-                    if (list.length()==0){
-                        return;
-                    }
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject infoObj = list.getJSONObject(i);
                         information information = new information(infoObj.getString("title"),
@@ -161,7 +158,7 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
                     }
                     mgr.add(newInfo);
                 } else {
-                    Toast.makeText(LostItemsActivity.this, result.getInt("error"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LostItemsActivity.this, result.getString("error"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
