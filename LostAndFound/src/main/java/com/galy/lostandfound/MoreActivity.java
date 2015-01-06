@@ -142,20 +142,17 @@ public class MoreActivity extends Activity {
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MoreActivity.this);
-//                builder.setMessage("Version 1.0.0 Made by L&F Group");
-//                builder.setTitle("关于Lost&Found");
-//                builder.setNeutralButton("确认",
-//                        new android.content.DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                builder.create().show();
-                String b = String.valueOf(System.currentTimeMillis());
-                Log.i("time", b);
-                Toast.makeText(MoreActivity.this, b, Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MoreActivity.this);
+                builder.setMessage("Version 1.0.0 Made by L&F Group");
+                builder.setTitle("关于Lost&Found");
+                builder.setNeutralButton("确认",
+                        new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.create().show();
             }
         });
 

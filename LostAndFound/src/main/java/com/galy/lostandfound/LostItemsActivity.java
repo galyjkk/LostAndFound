@@ -1,8 +1,10 @@
 package com.galy.lostandfound;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -53,7 +55,9 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
 
     private static final String GetArticles = "getArticles";
     private static final String GETALL = "?tag=0&ts=";
-    private final String ACTION_NAME = "loginSuccess";
+    private final String ACTION_LOGIN = "loginSuccess";
+    private final String ACTION_LOGOUT = "logoutSuccess";
+    private final String ACTION_POST = "postSuccess";
     private String username = "";
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss ");
@@ -86,18 +90,32 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
             }
         });
 
-        //查询数据库
-        query(refresh_lost);
-
         post_lost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toPost = new Intent(LostItemsActivity.this, PostActivity.class);
-                toPost.putExtra("fromLost", "lost");
-                toPost.putExtra("name", username);
-                startActivity(toPost);
+                if (username != "") {
+                    Intent toPost = new Intent(LostItemsActivity.this, PostActivity.class);
+                    toPost.putExtra("fromLost", "lost");
+                    toPost.putExtra("name", username);
+                    startActivity(toPost);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LostItemsActivity.this);
+                    builder.setMessage("登录后才可发布信息");
+                    builder.setTitle("请登录");
+                    builder.setNeutralButton("确认",
+                            new android.content.DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
+                }
             }
         });
+
+        //查询数据库
+        query(refresh_lost);
     }
 
     @Override
@@ -172,25 +190,32 @@ public class LostItemsActivity extends Activity implements AsyncTaskHttpClient.I
 
     }
 
-    private BroadcastReceiver onPostReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver onLostReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            username = intent.getStringExtra("username");
-            if (action.equals(ACTION_NAME)) {
-
+            if (action.equals(ACTION_LOGIN)) {
+                username = intent.getStringExtra("username");
+            }
+            if (action.equals(ACTION_LOGOUT)) {
+                username = "";
+            }
+            if (action.equals(ACTION_POST)) {
+                query(refresh_lost);
             }
         }
     };
 
     public void registerBroadcastReceiver() {
         IntentFilter myIntentFilter = new IntentFilter();
-        myIntentFilter.addAction(ACTION_NAME);
+        myIntentFilter.addAction(ACTION_LOGIN);
+        myIntentFilter.addAction(ACTION_LOGOUT);
+        myIntentFilter.addAction(ACTION_POST);
         //注册广播
-        registerReceiver(onPostReceiver, myIntentFilter);
+        registerReceiver(onLostReceiver, myIntentFilter);
     }
 
-    public void showListView() {
+    private void showListView() {
         List<information> informations = mgr.query();
 
         //sort rules
