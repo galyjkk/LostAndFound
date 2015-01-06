@@ -40,8 +40,6 @@ public class MoreActivity extends Activity {
     private BootstrapButton logout;
     private TextView signInText;
 
-    private static final String Cancle = "cancle";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
