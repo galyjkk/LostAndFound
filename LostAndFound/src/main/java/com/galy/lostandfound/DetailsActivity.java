@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.galy.lostandfound.database.DBManager;
 import com.galy.lostandfound.database.information;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ public class DetailsActivity extends Activity {
 
     private TextView title_details;
     private TextView content_details;
+    private TextView pubDate_details;
     private TextView num_details;
     private ImageButton back;
     private IconTextView call;
@@ -33,6 +36,8 @@ public class DetailsActivity extends Activity {
     private String num;
     private String messageId = null;
     private String username = null;
+
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss ");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class DetailsActivity extends Activity {
 
         title_details = (TextView)findViewById(R.id.text_title_details);
         content_details = (TextView)findViewById(R.id.text_content_details);
+        pubDate_details = (TextView)findViewById(R.id.text_pubDate_details);
 
         //按id查找信息
         List<information> informations = mgr.query();
@@ -67,8 +73,14 @@ public class DetailsActivity extends Activity {
             //如果id与messageid相等，则输出相应消息
             if(_id.equals(messageId))
             {
+                //转换时间格式
+                long timeMillis = Long.parseLong(information.pubDate);
+                Date pubDate = new Date(timeMillis);
+                String pubDateStr = formatter.format(pubDate);
+
                 title_details.setText(information.headline);
                 content_details.setText(information.content);
+                pubDate_details.setText(pubDateStr);
             }
         }
     }
@@ -78,6 +90,7 @@ public class DetailsActivity extends Activity {
 
         title_details = (TextView)findViewById(R.id.text_title_details);
         content_details = (TextView)findViewById(R.id.text_content_details);
+        pubDate_details = (TextView)findViewById(R.id.text_pubDate_details);
         num_details = (TextView)findViewById(R.id.text_number_details);
         back = (ImageButton)findViewById(R.id.image_button_back_details);
         call = (IconTextView)findViewById(R.id.image_button_call_details);
@@ -90,8 +103,14 @@ public class DetailsActivity extends Activity {
             //如果id与messageid相等，则输出相应消息
             if(_id.equals(messageId))
             {
+                //转换时间格式
+                long timeMillis = Long.parseLong(information.pubDate);
+                Date pubDate = new Date(timeMillis);
+                String pubDateStr = formatter.format(pubDate);
+
                 title_details.setText(information.headline);
                 content_details.setText(information.content);
+                pubDate_details.setText(pubDateStr);
                 num = information.number;
                 String numF = information.number.substring(0,4);
                 String numB = information.number.substring(7);
