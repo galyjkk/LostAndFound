@@ -30,8 +30,10 @@
     <string name="about">关于&#160;&#160;&#160;&#160;></string>
     <string name="exit">退出&#160;&#160;&#160;&#160;></string>
     <string name="add">添加内置消息&#160;&#160;></string>
+    <string name="qr_code">二维码链接&#160;&#160;&#160;></string>
     <string name="logout">注销&#160;&#160;&#160;&#160;></string>
     <string name="sign_in_text">点击此处登陆</string>
+    <string name="please_login_detail">登录后即可见发布人信息</string>
 
     <!--title-->
     <string name="title_activity_my_post">MyPostActivity</string>

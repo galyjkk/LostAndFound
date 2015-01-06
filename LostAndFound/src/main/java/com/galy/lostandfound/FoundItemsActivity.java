@@ -155,9 +155,6 @@ public class FoundItemsActivity extends Activity implements AsyncTaskHttpClient.
                 if (result.getBoolean("success")) {
                     ArrayList<information> newInfo = new ArrayList<information>();
                     JSONArray list = result.getJSONArray("list");
-                    if (list.length()==0){
-                        return;
-                    }
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject infoObj = list.getJSONObject(i);
                         information information = new information(infoObj.getString("title"),
@@ -169,7 +166,7 @@ public class FoundItemsActivity extends Activity implements AsyncTaskHttpClient.
                     }
                     mgr.add(newInfo);
                 } else {
-                    Toast.makeText(FoundItemsActivity.this, result.getInt("error"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FoundItemsActivity.this, result.getString("error"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
